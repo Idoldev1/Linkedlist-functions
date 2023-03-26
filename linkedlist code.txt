@@ -1,0 +1,109 @@
+public class LinkedList
+{
+    private class Node
+    {
+        public int Value { get; set; }
+        public Node Next { get; set; }
+        
+        public Node(int value)
+        {
+            Value = value;
+            Next = null;
+        }
+    }
+    
+    private Node head;
+    private int count;
+    
+    public LinkedList()
+    {
+        head = null;
+        count = 0;
+    }
+    
+    public int Count { get { return count; } }
+    
+    public void Add(int value)
+    {
+        Node newNode = new Node(value);
+        
+        if (head == null)
+        {
+            head = newNode;
+        }
+        else
+        {
+            Node currentNode = head;
+            
+            while (currentNode.Next != null)
+            {
+                currentNode = currentNode.Next;
+            }
+            
+            currentNode.Next = newNode;
+        }
+        
+        count++;
+    }
+    
+    public void Delete(int value)
+    {
+        if (head == null)
+        {
+            return;
+        }
+        
+        if (head.Value == value)
+        {
+            head = head.Next;
+            count--;
+            return;
+        }
+        
+        Node currentNode = head;
+        
+        while (currentNode.Next != null && currentNode.Next.Value != value)
+        {
+            currentNode = currentNode.Next;
+        }
+        
+        if (currentNode.Next != null)
+        {
+            currentNode.Next = currentNode.Next.Next;
+            count--;
+        }
+    }
+    
+    public void AddToIndex(int value, int index)
+    {
+        if (index < 0 || index > count)
+        {
+            throw new IndexOutOfRangeException();
+        }
+        
+        Node newNode = new Node(value);
+        
+        if (index == 0)
+        {
+            newNode.Next = head;
+            head = newNode;
+        }
+        else
+        {
+            Node currentNode = head;
+            int currentIndex = 0;
+            
+            while (currentIndex < index - 1)
+            {
+                currentNode = currentNode.Next;
+                currentIndex++;
+            }
+            
+            newNode.Next = currentNode.Next;
+            currentNode.Next = newNode;
+        }
+        
+        count++;
+    }
+}
+
